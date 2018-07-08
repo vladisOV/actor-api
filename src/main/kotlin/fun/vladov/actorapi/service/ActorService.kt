@@ -10,4 +10,6 @@ import `fun`.vladov.actorapi.domain.EmpInfo
 interface ActorService {
 
     fun generateDoc(empInfo: EmpInfo): String
+
+    fun generateXls(empInfo: EmpInfo): String
 }

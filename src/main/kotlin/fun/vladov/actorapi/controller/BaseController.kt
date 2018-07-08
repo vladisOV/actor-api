@@ -1,7 +1,7 @@
 package `fun`.vladov.actorapi.controller
 
 import `fun`.vladov.actorapi.domain.EmpInfo
-import `fun`.vladov.actorapi.domain.UploadFileResponse
+import `fun`.vladov.actorapi.domain.FileResponse
 import `fun`.vladov.actorapi.service.ActorService
 import `fun`.vladov.actorapi.service.FileStorageService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,27 +21,33 @@ import javax.servlet.http.HttpServletRequest
  */
 
 @RestController
-class BaseController {
-
-    @Autowired
-    lateinit var actorService: ActorService
-    @Autowired
-    lateinit var fileStorageService: FileStorageService
+class BaseController @Autowired constructor(val actorService: ActorService, val fileStorageService: FileStorageService) {
 
     @RequestMapping("/info", method = [(RequestMethod.POST)])
-    fun getInfo(): UploadFileResponse {
-        return UploadFileResponse("1", "1")
+    fun getInfo(): FileResponse {
+        return FileResponse("1", "1")
     }
 
-    @PostMapping
+    @PostMapping("act/generate")
     @ResponseStatus(HttpStatus.CREATED)
-    fun generateAct(@RequestBody empInfo: EmpInfo): UploadFileResponse {
+    fun generateAct(@RequestBody empInfo: EmpInfo): FileResponse {
         val fileName = actorService.generateDoc(empInfo)
         val fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString()
-        return UploadFileResponse(fileName, fileDownloadUri)
+        return FileResponse(fileName, fileDownloadUri)
+    }
+
+    @PostMapping("xls/generate")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun generateXls(@RequestBody empInfo: EmpInfo): FileResponse {
+        val fileName = actorService.generateXls(empInfo)
+        val fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(fileName)
+                .toUriString()
+        return FileResponse(fileName, fileDownloadUri)
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")

@@ -2,6 +2,7 @@ package `fun`.vladov.actorapi.service
 
 import `fun`.vladov.actorapi.domain.ActContext
 import `fun`.vladov.actorapi.domain.EmpInfo
+import `fun`.vladov.actorapi.domain.InvoiceContext
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.formatDate
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveFirstDayOfMonth
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveLastDayOfMonth
@@ -21,8 +22,15 @@ import org.springframework.stereotype.Service
 class ActorServiceImpl
 @Autowired
 constructor(@Value("\${act.destination}") var actDestination: String,
+            @Value("\${invoice.destination}") var invoiceDestination: String,
             var resourceLoader: ResourceLoader,
-            var docx4jService: Docx4jService) : ActorService {
+            var documentService: DocumentService) : ActorService {
+
+    override fun generateXls(empInfo: EmpInfo): String {
+        //TODO реализация
+        val template = resourceLoader.getResource(invoiceDestination).file
+        return documentService.stampAndXls(template, InvoiceContext(), "new")
+    }
 
 
     override fun generateDoc(empInfo: EmpInfo): String {
@@ -36,7 +44,7 @@ constructor(@Value("\${act.destination}") var actDestination: String,
                 empInfo.contract.number.toString(), formatDate(empInfo.contract.date),
                 StringUtils.buildShortName(empInfo.fullName), empInfo.fullName)
         val template = resourceLoader.getResource(actDestination).inputStream
-        return docx4jService.stampAndLoad(template, context, "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.docx")
+        return documentService.stampAndLoad(template, context, "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.docx")
     }
 
     private fun formatSalaryToSpellOutString(resultSalary: Int): String {
