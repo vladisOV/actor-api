@@ -11,6 +11,6 @@ import java.io.InputStream
  */
 interface DocumentService {
 
-    fun stampAndLoad(template: InputStream, context: ActContext, fileName: String): String
-    fun stampAndXls(template: File, context: InvoiceContext, fileName: String): String
+    fun stampAndLoadDoc(template: InputStream, context: ActContext, fileName: String): String
+    fun stampAndLoadXls(template: File, context: InvoiceContext, fileName: String): String
 }

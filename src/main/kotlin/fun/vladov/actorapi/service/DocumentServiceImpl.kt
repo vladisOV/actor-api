@@ -28,7 +28,7 @@ class DocumentServiceImpl
 @Autowired
 constructor(var fileStorageService: FileStorageService) : DocumentService {
 
-    override fun stampAndXls(template: File, context: InvoiceContext, fileName: String): String {
+    override fun stampAndLoadXls(template: File, context: InvoiceContext, fileName: String): String {
         val newFile = fileStorageService.createTempFile(fileName)
         val out = FileOutputStream(newFile)
         val opcPackagepkg = SpreadsheetMLPackage.load(template)
@@ -41,7 +41,7 @@ constructor(var fileStorageService: FileStorageService) : DocumentService {
         return newFile.name
     }
 
-    override fun stampAndLoad(template: InputStream, context: ActContext, fileName: String): String {
+    override fun stampAndLoadDoc(template: InputStream, context: ActContext, fileName: String): String {
         val newFile = fileStorageService.createTempFile(fileName)
         val out = FileOutputStream(newFile)
 

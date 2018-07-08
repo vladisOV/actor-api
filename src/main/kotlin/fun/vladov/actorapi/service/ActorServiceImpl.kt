@@ -29,7 +29,7 @@ constructor(@Value("\${act.destination}") var actDestination: String,
     override fun generateXls(empInfo: EmpInfo): String {
         //TODO реализация
         val template = resourceLoader.getResource(invoiceDestination).file
-        return documentService.stampAndXls(template, InvoiceContext(), "new")
+        return documentService.stampAndLoadXls(template, InvoiceContext(), "new")
     }
 
 
@@ -44,7 +44,7 @@ constructor(@Value("\${act.destination}") var actDestination: String,
                 empInfo.contract.number.toString(), formatDate(empInfo.contract.date),
                 StringUtils.buildShortName(empInfo.fullName), empInfo.fullName)
         val template = resourceLoader.getResource(actDestination).inputStream
-        return documentService.stampAndLoad(template, context, "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.docx")
+        return documentService.stampAndLoadDoc(template, context, "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.docx")
     }
 
     private fun formatSalaryToSpellOutString(resultSalary: Int): String {
