@@ -1,7 +1,7 @@
 package `fun`.vladov.actorapi.service
 
 import `fun`.vladov.actorapi.domain.ActContext
-import `fun`.vladov.actorapi.domain.InvoiceContext
+import `fun`.vladov.actorapi.domain.XlsContext
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,6 +13,9 @@ import java.io.*
 import org.docx4j.openpackaging.packages.SpreadsheetMLPackage
 import org.docx4j.openpackaging.parts.PartName
 import org.docx4j.openpackaging.parts.SpreadsheetML.JaxbSmlPart
+import java.util.HashMap
+
+
 
 
 
@@ -28,15 +31,14 @@ class DocumentServiceImpl
 @Autowired
 constructor(var fileStorageService: FileStorageService) : DocumentService {
 
-    override fun stampAndLoadXls(template: File, context: InvoiceContext, fileName: String): String {
+    override fun stampAndLoadXls(template: File, context: XlsContext, fileName: String): String {
         val newFile = fileStorageService.createTempFile(fileName)
-        val out = FileOutputStream(newFile)
         val opcPackagepkg = SpreadsheetMLPackage.load(template)
         val smlPart = opcPackagepkg.parts.get(PartName("/xl/sharedStrings.xml")) as JaxbSmlPart<*>
-//
-//        val document = load(newFile)
-//        document.save(newFile)
-
+        val mappings = HashMap<String, String>()
+        mappings["startDate"] = context.startDate
+        smlPart.variableReplace(mappings)
+        opcPackagepkg.save(newFile)
         logger.info(newFile.canonicalPath)
         return newFile.name
     }

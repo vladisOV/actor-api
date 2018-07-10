@@ -2,7 +2,7 @@ package `fun`.vladov.actorapi.service
 
 import `fun`.vladov.actorapi.domain.ActContext
 import `fun`.vladov.actorapi.domain.EmpInfo
-import `fun`.vladov.actorapi.domain.InvoiceContext
+import `fun`.vladov.actorapi.domain.XlsContext
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.formatDate
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveFirstDayOfMonth
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveLastDayOfMonth
@@ -22,14 +22,14 @@ import org.springframework.stereotype.Service
 class ActorServiceImpl
 @Autowired
 constructor(@Value("\${act.destination}") var actDestination: String,
-            @Value("\${invoice.destination}") var invoiceDestination: String,
+            @Value("\${xls.destination}") var xlsDestination: String,
             var resourceLoader: ResourceLoader,
             var documentService: DocumentService) : ActorService {
 
     override fun generateXls(empInfo: EmpInfo): String {
         //TODO реализация
-        val template = resourceLoader.getResource(invoiceDestination).file
-        return documentService.stampAndLoadXls(template, InvoiceContext(), "new")
+        val template = resourceLoader.getResource(xlsDestination).file
+        return documentService.stampAndLoadXls(template, XlsContext("11"), "new.xlsx")
     }
 
 
