@@ -9,5 +9,5 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
  */
 @JsonDeserialize(using = EmpInfoDeserializer::class)
 data class EmpInfo(val salary: Int, val month: Int, val hours: Int, val fullName: String,
-                   val certificate: Certificate, val contract: Contract
+                   val certificate: Certificate, val contract: Contract, val bankInfo: BankInfo?
 )

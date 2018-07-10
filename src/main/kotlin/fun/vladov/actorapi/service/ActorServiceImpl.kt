@@ -27,9 +27,18 @@ constructor(@Value("\${act.destination}") var actDestination: String,
             var documentService: DocumentService) : ActorService {
 
     override fun generateXls(empInfo: EmpInfo): String {
-        //TODO реализация
+        val resultSalary = calculateResultSalary(empInfo)
+        val spellOutSalary = formatSalaryToSpellOutString(resultSalary)
         val template = resourceLoader.getResource(xlsDestination).file
-        return documentService.stampAndLoadXls(template, XlsContext("11"), "new.xlsx")
+        empInfo.bankInfo!!
+        return documentService.stampAndLoadXls(template, XlsContext(
+                resolveLastDayOfMonth(empInfo.month),
+                resultSalary.toString(), empInfo.hours.toString(),
+                empInfo.salary.toString(), spellOutSalary, empInfo.contract.number.toString(),
+                empInfo.fullName, empInfo.bankInfo.inn, empInfo.bankInfo.bankName,
+                empInfo.bankInfo.bik, empInfo.bankInfo.bankAccount,
+                empInfo.bankInfo.empAccount, empInfo.month.toString()
+        ), "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.xlsx")
     }
 
 

@@ -7,7 +7,7 @@ package `fun`.vladov.actorapi.domain
 data class ActContext(val endDate: String, val startDate: String,
                       val resultSalary: String, val hours: String,
                       val salary: Int, val spellOutSalary: String,
-                      val series: String, val number: String,
+                      val series: String, val certNumber: String,
                       val contractNumber: String, val contractDate: String,
                       val shortName: String, val fullName: String
 )

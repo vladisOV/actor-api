@@ -36,7 +36,19 @@ constructor(var fileStorageService: FileStorageService) : DocumentService {
         val opcPackagepkg = SpreadsheetMLPackage.load(template)
         val smlPart = opcPackagepkg.parts.get(PartName("/xl/sharedStrings.xml")) as JaxbSmlPart<*>
         val mappings = HashMap<String, String>()
-        mappings["startDate"] = context.startDate
+        mappings["endDate"] = context.endDate
+        mappings["resultSalary"] = context.resultSalary
+        mappings["spellOutSalary"] = context.spellOutSalary
+        mappings["hours"] = context.hours
+        mappings["fullName"] = context.fullName
+        mappings["number"] = context.number
+        mappings["salary"] = context.salary
+        mappings["inn"] = context.inn
+        mappings["bik"] = context.bik
+        mappings["billNumber"] = context.billNumber
+        mappings["bankAccount"] = context.bankAccount
+        mappings["bankName"] = context.bankName
+        mappings["empAccount"] = context.empAccount
         smlPart.variableReplace(mappings)
         opcPackagepkg.save(newFile)
         logger.info(newFile.canonicalPath)

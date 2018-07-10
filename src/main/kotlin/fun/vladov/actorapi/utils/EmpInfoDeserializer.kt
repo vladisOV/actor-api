@@ -1,5 +1,6 @@
 package `fun`.vladov.actorapi.utils
 
+import `fun`.vladov.actorapi.domain.BankInfo
 import `fun`.vladov.actorapi.domain.Certificate
 import `fun`.vladov.actorapi.domain.Contract
 import `fun`.vladov.actorapi.domain.EmpInfo
@@ -28,7 +29,13 @@ class EmpInfoDeserializer : JsonDeserializer<EmpInfo>() {
                 getStringValue("number", jNode.get("certificate")))
         val contract = Contract(getIntValue("number", jNode.get("contract")),
                 parseDate("date", jNode.get("contract")))
-        return EmpInfo(salary, month, hours, fullName, certificate, contract)
+        val bankInfoNode = jNode.get("bankInfo") ?: return EmpInfo(salary, month, hours, fullName, certificate, contract, null)
+        val bankInfo = BankInfo(getStringValue("inn", bankInfoNode),
+                getStringValue("bankName", bankInfoNode),
+                getStringValue("bik", bankInfoNode),
+                getStringValue("bankAccount", bankInfoNode),
+                getStringValue("empAccount", bankInfoNode))
+        return EmpInfo(salary, month, hours, fullName, certificate, contract, bankInfo)
     }
 
     private fun getIntValue(value: String, node: JsonNode): Int {
