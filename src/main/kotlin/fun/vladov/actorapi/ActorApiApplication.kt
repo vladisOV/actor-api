@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ActorApiApplication
+open class ActorApiApplication
 
 fun main(args: Array<String>) {
     runApplication<ActorApiApplication>(*args)
