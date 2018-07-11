@@ -1,7 +1,8 @@
 package `fun`.vladov.actorapi.controller
 
-import `fun`.vladov.actorapi.domain.EmpInfo
-import `fun`.vladov.actorapi.domain.FileResponse
+import `fun`.vladov.actorapi.dto.AllDocsResponse
+import `fun`.vladov.actorapi.dto.EmpInfo
+import `fun`.vladov.actorapi.dto.SingleDocResponse
 import `fun`.vladov.actorapi.service.ActorService
 import `fun`.vladov.actorapi.service.FileStorageService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,33 +22,51 @@ import javax.servlet.http.HttpServletRequest
  */
 
 @RestController
-class BaseController @Autowired constructor(val actorService: ActorService, val fileStorageService: FileStorageService) {
+class BaseController @Autowired constructor(private val actorService: ActorService,
+                                            private val fileStorageService: FileStorageService) {
 
     @RequestMapping("/info", method = [(RequestMethod.POST)])
-    fun getInfo(): FileResponse {
-        return FileResponse("1", "1")
+    fun getInfo(): SingleDocResponse {
+        return SingleDocResponse("1", "1")
     }
 
-    @PostMapping("act/generate")
+    @PostMapping("generate/doc")
     @ResponseStatus(HttpStatus.CREATED)
-    fun generateAct(@RequestBody empInfo: EmpInfo): FileResponse {
+    fun generateAct(@RequestBody empInfo: EmpInfo): SingleDocResponse {
         val fileName = actorService.generateDoc(empInfo)
         val fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString()
-        return FileResponse(fileName, fileDownloadUri)
+        return SingleDocResponse(fileName, fileDownloadUri)
     }
 
-    @PostMapping("xls/generate")
+    @PostMapping("generate/xls")
     @ResponseStatus(HttpStatus.CREATED)
-    fun generateXls(@RequestBody empInfo: EmpInfo): FileResponse {
+    fun generateXls(@RequestBody empInfo: EmpInfo): SingleDocResponse {
         val fileName = actorService.generateXls(empInfo)
         val fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString()
-        return FileResponse(fileName, fileDownloadUri)
+        return SingleDocResponse(fileName, fileDownloadUri)
+    }
+
+    @PostMapping("generate/all")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun generateAll(@RequestBody empInfo: EmpInfo): AllDocsResponse {
+        val xlsFileName = actorService.generateXls(empInfo)
+        val docFileName = actorService.generateDoc(empInfo)
+        //TODO parallel
+        val xlsDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(xlsFileName)
+                .toUriString()
+        val docDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(docFileName)
+                .toUriString()
+        return AllDocsResponse(xlsFileName, xlsDownloadUri, docFileName, docDownloadUri)
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")

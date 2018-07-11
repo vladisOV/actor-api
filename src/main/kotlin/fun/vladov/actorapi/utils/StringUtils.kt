@@ -1,6 +1,6 @@
 package `fun`.vladov.actorapi.utils
 
-import `fun`.vladov.actorapi.domain.EmpInfo
+import `fun`.vladov.actorapi.dto.EmpInfo
 
 /**
  * @author vladov

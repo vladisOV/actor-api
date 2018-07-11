@@ -1,8 +1,7 @@
 package `fun`.vladov.actorapi.service
 
-import `fun`.vladov.actorapi.domain.ActContext
-import `fun`.vladov.actorapi.domain.EmpInfo
-import `fun`.vladov.actorapi.domain.XlsContext
+import `fun`.vladov.actorapi.domain.DocumentContext
+import `fun`.vladov.actorapi.dto.EmpInfo
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.formatDate
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveFirstDayOfMonth
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveLastDayOfMonth
@@ -27,33 +26,40 @@ constructor(@Value("\${act.destination}") var actDestination: String,
             var documentService: DocumentService) : ActorService {
 
     override fun generateXls(empInfo: EmpInfo): String {
-        val resultSalary = calculateResultSalary(empInfo)
-        val spellOutSalary = formatSalaryToSpellOutString(resultSalary)
         val template = resourceLoader.getResource(xlsDestination).file
         empInfo.bankInfo!!
-        return documentService.stampAndLoadXls(template, XlsContext(
-                resolveLastDayOfMonth(empInfo.month),
-                resultSalary.toString(), empInfo.hours.toString(),
-                empInfo.salary.toString(), spellOutSalary, empInfo.contract.number.toString(),
-                empInfo.fullName, empInfo.bankInfo.inn, empInfo.bankInfo.bankName,
-                empInfo.bankInfo.bik, empInfo.bankInfo.bankAccount,
-                empInfo.bankInfo.empAccount, empInfo.month.toString()
-        ), "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.xlsx")
+        return documentService.stampAndLoadXls(template, buildDocumentContext(empInfo, true), "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.xlsx")
     }
 
 
     override fun generateDoc(empInfo: EmpInfo): String {
+        val template = resourceLoader.getResource(actDestination).inputStream
+        return documentService.stampAndLoadDoc(template, buildDocumentContext(empInfo, false), "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.docx")
+    }
+
+    private fun buildDocumentContext(empInfo: EmpInfo, isXls: Boolean): DocumentContext {
         val resultSalary = calculateResultSalary(empInfo)
         val spellOutSalary = formatSalaryToSpellOutString(resultSalary)
-        val context = ActContext(resolveLastDayOfMonth(empInfo.month),
+        if (!isXls) {
+            return DocumentContext(resolveLastDayOfMonth(empInfo.month),
+                    resolveFirstDayOfMonth(empInfo.month),
+                    resultSalary.toString(),
+                    empInfo.hours.toString(), empInfo.salary, spellOutSalary,
+                    empInfo.certificate.series, empInfo.certificate.number,
+                    empInfo.contract.number.toString(), formatDate(empInfo.contract.date),
+                    StringUtils.buildShortName(empInfo.fullName), empInfo.fullName)
+        }
+        empInfo.bankInfo!!
+        return DocumentContext(
+                resolveLastDayOfMonth(empInfo.month),
                 resolveFirstDayOfMonth(empInfo.month),
                 resultSalary.toString(),
                 empInfo.hours.toString(), empInfo.salary, spellOutSalary,
                 empInfo.certificate.series, empInfo.certificate.number,
                 empInfo.contract.number.toString(), formatDate(empInfo.contract.date),
-                StringUtils.buildShortName(empInfo.fullName), empInfo.fullName)
-        val template = resourceLoader.getResource(actDestination).inputStream
-        return documentService.stampAndLoadDoc(template, context, "${StringUtils.buildPrefix(empInfo)}_${empInfo.month}.docx")
+                StringUtils.buildShortName(empInfo.fullName), empInfo.fullName, empInfo.bankInfo.inn, empInfo.bankInfo.bankName,
+                empInfo.bankInfo.bik, empInfo.bankInfo.bankAccount,
+                empInfo.bankInfo.empAccount, empInfo.month.toString())
     }
 
     private fun formatSalaryToSpellOutString(resultSalary: Int): String {

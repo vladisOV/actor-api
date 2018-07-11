@@ -40,11 +40,6 @@ repositories {
 	mavenCentral()
 }
 
-jacoco {
-	toolVersion = "0.8.1"
-	reportsDir = file("$buildDir/customJacocoReportDir")
-}
-
 jacocoTestReport {
 	reports {
 		xml.enabled true

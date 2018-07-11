@@ -1,7 +1,6 @@
 package `fun`.vladov.actorapi.service
 
-import `fun`.vladov.actorapi.domain.ActContext
-import `fun`.vladov.actorapi.domain.XlsContext
+import `fun`.vladov.actorapi.domain.DocumentContext
 import java.io.File
 import java.io.InputStream
 
@@ -11,6 +10,6 @@ import java.io.InputStream
  */
 interface DocumentService {
 
-    fun stampAndLoadDoc(template: InputStream, context: ActContext, fileName: String): String
-    fun stampAndLoadXls(template: File, context: XlsContext, fileName: String): String
+    fun stampAndLoadDoc(template: InputStream, context: DocumentContext, fileName: String): String
+    fun stampAndLoadXls(template: File, context: DocumentContext, fileName: String): String
 }

@@ -3,7 +3,7 @@ package `fun`.vladov.actorapi.utils
 import `fun`.vladov.actorapi.domain.BankInfo
 import `fun`.vladov.actorapi.domain.Certificate
 import `fun`.vladov.actorapi.domain.Contract
-import `fun`.vladov.actorapi.domain.EmpInfo
+import `fun`.vladov.actorapi.dto.EmpInfo
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
@@ -47,7 +47,7 @@ class EmpInfoDeserializer : JsonDeserializer<EmpInfo>() {
     }
 
     private fun parseDate(value: String, node: JsonNode): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         return LocalDate.parse(node.get(value).textValue(), formatter)
     }
 }
