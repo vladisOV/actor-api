@@ -13,6 +13,11 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import sun.reflect.generics.tree.ReturnType
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 import javax.servlet.http.HttpServletRequest
 
 
@@ -55,9 +60,17 @@ class BaseController @Autowired constructor(private val actorService: ActorServi
     @PostMapping("generate/all")
     @ResponseStatus(HttpStatus.CREATED)
     fun generateAll(@RequestBody empInfo: EmpInfo): AllDocsResponse {
-        val xlsFileName = actorService.generateXls(empInfo)
-        val docFileName = actorService.generateDoc(empInfo)
-        //TODO parallel
+        var callables: List<Callable<String>> = mutableListOf()
+        callables += Callable<String> { actorService.generateDoc(empInfo)}
+        callables += Callable<String> { actorService.generateXls(empInfo)}
+        val executorService: ExecutorService = Executors.newFixedThreadPool(callables.size)
+        val futures:List<Future<String>> = executorService.invokeAll(callables)
+        executorService.shutdown()
+
+        //TODO null check + exception
+        val docFileName = futures[0].get()
+        val xlsFileName = futures[1].get()
+
         val xlsDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(xlsFileName)
