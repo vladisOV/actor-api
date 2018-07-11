@@ -3,7 +3,7 @@ package `fun`.vladov.actorapi.utils
 import `fun`.vladov.actorapi.domain.BankInfo
 import `fun`.vladov.actorapi.domain.Certificate
 import `fun`.vladov.actorapi.domain.Contract
-import `fun`.vladov.actorapi.domain.EmpInfo
+import `fun`.vladov.actorapi.dto.EmpInfo
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer

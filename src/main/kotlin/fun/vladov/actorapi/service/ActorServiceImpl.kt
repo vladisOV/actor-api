@@ -1,7 +1,7 @@
 package `fun`.vladov.actorapi.service
 
 import `fun`.vladov.actorapi.domain.DocumentContext
-import `fun`.vladov.actorapi.domain.EmpInfo
+import `fun`.vladov.actorapi.dto.EmpInfo
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.formatDate
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveFirstDayOfMonth
 import `fun`.vladov.actorapi.utils.DateUtils.Companion.resolveLastDayOfMonth
