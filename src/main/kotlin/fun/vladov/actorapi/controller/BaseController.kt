@@ -30,11 +30,6 @@ import javax.servlet.http.HttpServletRequest
 class BaseController @Autowired constructor(private val actorService: ActorService,
                                             private val fileStorageService: FileStorageService) {
 
-    @RequestMapping("/info", method = [(RequestMethod.POST)])
-    fun getInfo(): SingleDocResponse {
-        return SingleDocResponse("1", "1")
-    }
-
     @PostMapping("generate/doc")
     @ResponseStatus(HttpStatus.CREATED)
     fun generateAct(@RequestBody empInfo: EmpInfo): SingleDocResponse {
@@ -60,17 +55,14 @@ class BaseController @Autowired constructor(private val actorService: ActorServi
     @PostMapping("generate/all")
     @ResponseStatus(HttpStatus.CREATED)
     fun generateAll(@RequestBody empInfo: EmpInfo): AllDocsResponse {
+        val xlsFileName = actorService.generateXls(empInfo)
+        val docFileName = actorService.generateDoc(empInfo)
         var callables: List<Callable<String>> = mutableListOf()
         callables += Callable<String> { actorService.generateDoc(empInfo)}
         callables += Callable<String> { actorService.generateXls(empInfo)}
         val executorService: ExecutorService = Executors.newFixedThreadPool(callables.size)
         val futures:List<Future<String>> = executorService.invokeAll(callables)
-        executorService.shutdown()
-
-        //TODO null check + exception
-        val docFileName = futures[0].get()
-        val xlsFileName = futures[1].get()
-
+        futures.parallelStream().forEach{print(it)}
         val xlsDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(xlsFileName)
