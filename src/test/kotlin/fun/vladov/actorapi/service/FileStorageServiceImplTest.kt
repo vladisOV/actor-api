@@ -1,13 +1,11 @@
 package `fun`.vladov.actorapi.service
 
+import com.nhaarman.mockitokotlin2.mock
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.context.annotation.Bean
 import org.springframework.test.context.junit4.SpringRunner
-import java.lang.Exception
 
 
 /**
@@ -18,24 +16,14 @@ import java.lang.Exception
 @SpringBootTest
 class FileStorageServiceImplTest {
 
-    @TestConfiguration
-    internal class FileStorageServiceImplContextConfiguration {
-
-        @Bean
-        fun fileStorageService(): FileStorageServiceImpl {
-            return FileStorageServiceImpl("uploadDir")
-        }
-    }
-
-    @Autowired
     lateinit var fileStorageService: FileStorageService
 
-    @Test
-    fun createTempFile() {
-
+    @Before
+    fun setUp() {
+        fileStorageService = mock()
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun loadFileAsResource() {
         fileStorageService.loadFileAsResource("fileName")
     }
