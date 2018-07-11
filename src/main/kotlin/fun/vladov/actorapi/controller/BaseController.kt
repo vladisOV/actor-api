@@ -66,7 +66,7 @@ class BaseController @Autowired constructor(private val actorService: ActorServi
                 .path("/downloadFile/")
                 .path(docFileName)
                 .toUriString()
-        return AllDocsResponse(xlsDownloadUri, docDownloadUri)
+        return AllDocsResponse(xlsFileName, xlsDownloadUri, docFileName, docDownloadUri)
     }
 
     @GetMapping("/downloadFile/{fileName:.+}")

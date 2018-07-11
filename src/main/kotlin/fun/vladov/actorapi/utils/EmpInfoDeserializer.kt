@@ -47,7 +47,7 @@ class EmpInfoDeserializer : JsonDeserializer<EmpInfo>() {
     }
 
     private fun parseDate(value: String, node: JsonNode): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         return LocalDate.parse(node.get(value).textValue(), formatter)
     }
 }
