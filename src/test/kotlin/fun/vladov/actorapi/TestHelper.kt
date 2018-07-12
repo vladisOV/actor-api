@@ -1,8 +1,8 @@
 package `fun`.vladov.actorapi
 
-import `fun`.vladov.actorapi.domain.BankInfo
-import `fun`.vladov.actorapi.domain.Certificate
-import `fun`.vladov.actorapi.domain.Contract
+import `fun`.vladov.actorapi.dto.BankInfo
+import `fun`.vladov.actorapi.dto.Certificate
+import `fun`.vladov.actorapi.dto.Contract
 import `fun`.vladov.actorapi.dto.EmpInfo
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

@@ -1,8 +1,5 @@
 package `fun`.vladov.actorapi.dto
 
-import `fun`.vladov.actorapi.domain.BankInfo
-import `fun`.vladov.actorapi.domain.Certificate
-import `fun`.vladov.actorapi.domain.Contract
 import `fun`.vladov.actorapi.utils.EmpInfoDeserializer
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 

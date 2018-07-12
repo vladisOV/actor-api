@@ -1,4 +1,4 @@
-package `fun`.vladov.actorapi.domain
+package `fun`.vladov.actorapi.dto
 
 import java.time.LocalDate
 

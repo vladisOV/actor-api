@@ -1,6 +1,6 @@
 package `fun`.vladov.actorapi.service
 
-import `fun`.vladov.actorapi.domain.DocumentContext
+import `fun`.vladov.actorapi.dto.DocumentContext
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

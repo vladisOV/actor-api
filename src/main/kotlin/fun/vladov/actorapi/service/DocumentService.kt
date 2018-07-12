@@ -1,6 +1,6 @@
 package `fun`.vladov.actorapi.service
 
-import `fun`.vladov.actorapi.domain.DocumentContext
+import `fun`.vladov.actorapi.dto.DocumentContext
 import java.io.File
 import java.io.InputStream
 

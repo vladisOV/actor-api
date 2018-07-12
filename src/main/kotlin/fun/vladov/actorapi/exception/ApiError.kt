@@ -5,15 +5,5 @@ import org.springframework.http.HttpStatus
 /**
  * base error response
  */
-class ApiError {
+data class ApiError(var status: HttpStatus, var message: String, var error: String)
 
-    lateinit var status: HttpStatus
-    lateinit var message: String
-    lateinit var error: String
-
-    constructor(status: HttpStatus, message: String, error: String) : super() {
-        this.status = status
-        this.message = message
-        this.error = error
-    }
-}

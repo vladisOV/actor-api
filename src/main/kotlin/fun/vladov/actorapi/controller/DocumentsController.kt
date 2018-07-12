@@ -13,12 +13,10 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
-import sun.reflect.generics.tree.ReturnType
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
-import javax.servlet.http.HttpServletRequest
 
 
 /**
@@ -27,8 +25,8 @@ import javax.servlet.http.HttpServletRequest
  */
 
 @RestController
-class BaseController @Autowired constructor(private val actorService: ActorService,
-                                            private val fileStorageService: FileStorageService) {
+class DocumentsController @Autowired constructor(private val actorService: ActorService,
+                                                 private val fileStorageService: FileStorageService) {
 
 
     /**
