@@ -30,6 +30,12 @@ import javax.servlet.http.HttpServletRequest
 class BaseController @Autowired constructor(private val actorService: ActorService,
                                             private val fileStorageService: FileStorageService) {
 
+
+    /**
+     * doc file generation
+     * @param empInfo - base employee info
+     * @return document url & file name
+     */
     @PostMapping("generate/doc")
     @ResponseStatus(HttpStatus.CREATED)
     fun generateAct(@RequestBody empInfo: EmpInfo): SingleDocResponse {
@@ -41,6 +47,11 @@ class BaseController @Autowired constructor(private val actorService: ActorServi
         return SingleDocResponse(fileName, fileDownloadUri)
     }
 
+    /**
+     * xls file generation
+     * @param empInfo - base employee info
+     * @return xls url & file name
+     */
     @PostMapping("generate/xls")
     @ResponseStatus(HttpStatus.CREATED)
     fun generateXls(@RequestBody empInfo: EmpInfo): SingleDocResponse {
@@ -52,6 +63,11 @@ class BaseController @Autowired constructor(private val actorService: ActorServi
         return SingleDocResponse(fileName, fileDownloadUri)
     }
 
+    /**
+     * generates both doc & xls files
+     * @param empInfo - base employee info
+     * @return xls url & doc url
+     */
     @PostMapping("generate/all")
     @ResponseStatus(HttpStatus.CREATED)
     fun generateAll(@RequestBody empInfo: EmpInfo): AllDocsResponse {
@@ -74,8 +90,13 @@ class BaseController @Autowired constructor(private val actorService: ActorServi
         return AllDocsResponse(xlsFileName, xlsDownloadUri, docFileName, docDownloadUri)
     }
 
+    /**
+     * downloads file
+     * @param fileName file to download
+     * @return file as attachment
+     */
     @GetMapping("/downloadFile/{fileName:.+}")
-    fun downloadFile(@PathVariable fileName: String, request: HttpServletRequest): ResponseEntity<Resource> {
+    fun downloadFile(@PathVariable fileName: String): ResponseEntity<Resource> {
         val resource = fileStorageService.loadFileAsResource(fileName)
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))

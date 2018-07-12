@@ -9,6 +9,15 @@ import java.io.File
  */
 interface FileStorageService {
 
-    fun createTempFile(fileName: String): File
+    /**
+     * creates temp file on disk
+     * @param fileName file name
+     * @return created file
+     */
+    fun createTempFile(fileName: String): File/**
+     * loads file from disk
+     * @param fileName file name
+     * @return file resource
+     */
     fun loadFileAsResource(fileName: String): Resource
 }

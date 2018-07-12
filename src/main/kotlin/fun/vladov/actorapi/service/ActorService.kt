@@ -9,7 +9,17 @@ import `fun`.vladov.actorapi.dto.EmpInfo
 
 interface ActorService {
 
+    /**
+     * base method for generating doc file
+     * @param empInfo employee info
+     * @return file name
+     */
     fun generateDoc(empInfo: EmpInfo): String
 
+    /**
+     * base method for generating xls file
+     * @param empInfo employee info
+     * @return file name
+     */
     fun generateXls(empInfo: EmpInfo): String
 }
