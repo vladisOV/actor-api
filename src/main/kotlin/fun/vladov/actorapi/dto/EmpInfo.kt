@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 /**
  * @author vladov
  * 05/07/2018
+ * base employee info
  */
 @JsonDeserialize(using = EmpInfoDeserializer::class)
 data class EmpInfo(val salary: Int, val month: Int, val hours: Int, val fullName: String,

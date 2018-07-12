@@ -2,6 +2,9 @@ package `fun`.vladov.actorapi.exception
 
 import org.springframework.http.HttpStatus
 
+/**
+ * base error response
+ */
 class ApiError {
 
     lateinit var status: HttpStatus

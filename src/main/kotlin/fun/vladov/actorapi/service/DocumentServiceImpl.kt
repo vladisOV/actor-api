@@ -33,8 +33,8 @@ constructor(var fileStorageService: FileStorageService) : DocumentService {
     override fun stampAndLoadXls(template: File, context: DocumentContext, fileName: String): String {
         val newFile = fileStorageService.createTempFile(fileName)
         val opcPackagepkg = SpreadsheetMLPackage.load(template)
-        val smlPart = opcPackagepkg.parts.get(PartName("/xl/sharedStrings.xml")) as JaxbSmlPart<*>
-        smlPart.variableReplace(buildMappings(context))
+        val smlPart = opcPackagepkg.parts.get(PartName("/xl/sharedStrings.xml")) as? JaxbSmlPart<*>
+        smlPart?.variableReplace(buildMappings(context))
         opcPackagepkg.save(newFile)
         return newFile.name
     }

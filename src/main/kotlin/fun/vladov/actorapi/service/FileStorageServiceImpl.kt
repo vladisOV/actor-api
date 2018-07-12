@@ -49,7 +49,7 @@ constructor(@Value("\${file.upload-dir}") var uploadDir: String) : FileStorageSe
                 throw FileNotFoundException("File not found $fileName")
             }
         } catch (ex: MalformedURLException) {
-            throw Exception("File not found $fileName", ex)
+            throw FileNotFoundException("File not found $fileName")
         }
     }
 }

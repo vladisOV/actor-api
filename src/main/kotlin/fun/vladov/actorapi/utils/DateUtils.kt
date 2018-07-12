@@ -15,16 +15,25 @@ class DateUtils {
 
     companion object {
 
+        /**
+         * get last day of month as localdate
+         */
         @JvmStatic
         fun resolveLastDayOfMonth(month: Int):String {
             return formatDate(false, Month.of(month))
         }
 
+        /**
+         * get first day of month as localdate
+         */
         @JvmStatic
         fun resolveFirstDayOfMonth(month: Int):String {
             return formatDate(true, Month.of(month))
         }
 
+        /**
+         * format date for template
+         */
         @JvmStatic
         fun formatDate(date: LocalDate):String {
             val formatter = ofPattern("«dd» MMMM yyyy", Locale("ru"))
