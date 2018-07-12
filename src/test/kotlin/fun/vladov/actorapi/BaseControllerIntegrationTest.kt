@@ -50,6 +50,13 @@ class BaseControllerIntegrationTest {
         assertEquals("1_Test_1.docx", getFileName(result.body, "docFileName").textValue())
     }
 
+    @Test
+    fun testDownloadFileNotFound() {
+        val result = testRestTemplate.getForEntity("/downloadFile/file.docx", String::class.java)
+        assertNotNull(result)
+        assertEquals(HttpStatus.BAD_REQUEST, result.statusCode)
+    }
+
     private fun getFileName(body: String?, toParse: String): JsonNode {
         return ObjectMapper(JsonFactory()).reader().readTree(body)[toParse]
     }

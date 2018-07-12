@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Service
 import java.io.File
+import java.io.FileNotFoundException
 import java.net.MalformedURLException
 import java.nio.file.Files
 import java.nio.file.Path
@@ -45,7 +46,7 @@ constructor(@Value("\${file.upload-dir}") var uploadDir: String) : FileStorageSe
             return if (resource.exists()) {
                 resource
             } else {
-                throw Exception("File not found $fileName")
+                throw FileNotFoundException("File not found $fileName")
             }
         } catch (ex: MalformedURLException) {
             throw Exception("File not found $fileName", ex)

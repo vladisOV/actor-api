@@ -55,6 +55,7 @@ dependencies {
 	compile('org.docx4j:docx4j:3.3.7')
 	compile group: 'org.wickedsource', name: 'docx-stamper', version: '1.2.2'
 	compile group: 'com.ibm.icu', name: 'icu4j', version: '62.1'
+	testCompile 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }
